@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PackUtils;
 using System;
 using System.Threading.Tasks;
 
@@ -31,31 +30,14 @@ namespace AspNetScaffolding.Extensions.QueryFormatter
 
         public override bool ContainsPrefix(string prefix)
         {
-            return base.ContainsPrefix(GetNewValue(prefix));
+            return base.ContainsPrefix(prefix.GetValueConsideringCurrentCase());
         }
 
         public override ValueProviderResult GetValue(string key)
         {
-            return base.GetValue(GetNewValue(key));
+            return base.GetValue(key.GetValueConsideringCurrentCase());
         }
 
-        private string GetNewValue(string value)
-        {
-            switch (JsonSerializerMode)
-            {
-                case JsonSerializerEnum.Camelcase:
-                    value = value.ToCamelCase();
-                    break;
-                case JsonSerializerEnum.Snakecase:
-                    value = value.ToSnakeCase();
-                    break;
-                case JsonSerializerEnum.Lowercase:
-                    value = value.ToLowerCase();
-                    break;
-            }
-
-            return value;
-        }
     }
 
     public class CaseQueryValueProviderFactory : IValueProviderFactory

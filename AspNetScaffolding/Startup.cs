@@ -73,14 +73,13 @@ namespace AspNetScaffolding
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDeveloperExceptionPageWhenDevelopment(env);
             app.UseAspNetSerilog();
             app.UseRequestKey();
             app.UseAccountId();
             app.UseTimeElapsed();
             app.UseScaffoldingSwagger();
-            //app.UseScaffoldingExceptionHandler();
             app.UseScaffoldingRequestLocalization(Api.ApiSettings?.SupportedCultures);
+            app.UseScaffoldingExceptionHandler();
             app.UseMvc();
             app.AllowCors();
 

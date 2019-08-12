@@ -46,7 +46,7 @@ namespace AspNetScaffolding.Extensions.Docs
                             break;
                     }
 
-                    options.OperationFilter<QuerystringCaseOperationFilter>(apiSettings.JsonSerializer);
+                    options.OperationFilter<QuerystringCaseOperationFilter>();
                     options.DescribeAllEnumsAsStrings();
                     options.SwaggerDoc(apiSettings.Version, new Info
                     {

@@ -48,7 +48,7 @@ namespace AspNetScaffolding.Controllers
         [ProducesResponseType(typeof(ErrorsResponse), 400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Create(Person person)
+        public IActionResult Create([FromBody]Person person)
         {
             Validate(person);
 

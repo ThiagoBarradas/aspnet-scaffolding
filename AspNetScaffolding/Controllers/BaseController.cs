@@ -1,4 +1,5 @@
 ﻿using AspNetScaffolding.Extensions.Cors;
+using AspNetScaffolding.Extensions.JsonSerializer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -71,7 +72,11 @@ namespace AspNetScaffolding.Controllers
             {
                 foreach (var errorDetail in errorPerProperty.Value.Errors)
                 {
-                    errorsResponse.AddError(errorPerProperty.Key, errorPerProperty.Key);
+                    var propertyName = string.Join(".",
+                        errorPerProperty.Key.Split(".")
+                        .Select(r => r.GetValueConsideringCurrentCase()));
+
+                    errorsResponse.AddError(propertyName, errorDetail.ErrorMessage);
                 }
             }
 

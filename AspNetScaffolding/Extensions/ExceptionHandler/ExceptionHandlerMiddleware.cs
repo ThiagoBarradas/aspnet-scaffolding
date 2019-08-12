@@ -62,7 +62,8 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
 
             if (apiResponse.Content != null)
             {
-                return context.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.Content));
+                context.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.Content)).Wait();
+                context.Response.Body.Position = 0;
             }
 
             return Task.CompletedTask;

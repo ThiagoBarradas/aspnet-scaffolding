@@ -16,6 +16,8 @@ namespace AspNetScaffolding.Extensions.JsonSerializer
             string timezoneHeaderName,
             TimeZoneInfo defaultTimeZone)
         {
+            CaseUtility.JsonSerializerMode = jsonSerializerMode;
+
             JsonSerializerSettings jsonSerializerSettings = null;
             Newtonsoft.Json.JsonSerializer jsonSerializer = null;
 
