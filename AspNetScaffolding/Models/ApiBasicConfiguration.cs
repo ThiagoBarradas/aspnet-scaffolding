@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,8 +18,12 @@ namespace AspNetScaffolding.Models
 
         public IEnumerable<Assembly> AutoRegisterAssemblies { get; set; } = new List<Assembly>();
 
-        public Func<IServiceCollection> ConfigureServices { get; set; }
+        public Action<IMapperConfigurationExpression> ConfigureMapper { get; set; }
 
-        public Func<IApplicationBuilder, IHostingEnvironment> Configure { get; set; }
+        public Action<IHealthChecksBuilder> ConfigureHealthcheck { get; set; }
+
+        public Action<IServiceCollection> ConfigureServices { get; set; }
+
+        public Action<IApplicationBuilder, IHostingEnvironment> Configure { get; set; }
     }
 }

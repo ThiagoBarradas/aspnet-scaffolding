@@ -22,7 +22,9 @@ namespace AspNetScaffolding.Models
 
         public string GetPathPrefixConsideringVersion()
         {
-            return this.PathPrefix.Replace("{version}", this.Version, StringComparison.OrdinalIgnoreCase);
+            string version = this.Version ?? null;
+
+            return this.PathPrefix.Replace("{version}", version, StringComparison.OrdinalIgnoreCase);
         }
 
         public string Domain { get; set; }

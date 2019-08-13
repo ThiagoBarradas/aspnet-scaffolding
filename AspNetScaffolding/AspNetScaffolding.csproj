@@ -3,23 +3,37 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+	<PackageIconUrl>https://i.imgur.com/Wq5D0gQ.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/thiagobarradas/aspnet-scaffolding</PackageProjectUrl>
+    <PackageTags>aspnet, scaffolding, splunk, seq, healthcheck, timezone, requestkey, timeelapsed, api, core, json</PackageTags>
+    <Company>Thiago Barradas</Company>
+    <Authors>Thiago Barradas</Authors>
+    <PackageLicenseUrl>https://github.com/thiagobarradas/aspnet-scaffolding/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/thiagobarradas/aspnet-scaffolding</RepositoryUrl>
+	<Description>AspNet Scaffolding with log, serializer, and all structure to work good for me :D</Description>
+    <Copyright>Ⓒ Thiago Barradas</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="2.2.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="2.2.3" />
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="2.2.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="2.2.3" />
+    <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="2.2.3" />
+    <PackageReference Include="AspNetSerilog" Version="1.0.3" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CorrelationId" Version="2.1.0" />
     <PackageReference Include="FluentValidation" Version="8.4.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="PackUtils" Version="1.0.39" />
+    <PackageReference Include="PackUtils" Version="1.0.40" />
+    <PackageReference Include="RestSharp.Serilog.Auto" Version="1.0.26" />
     <PackageReference Include="Serilog.Builder" Version="1.0.25" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="4.0.1" />
     <PackageReference Include="WebApi.Models" Version="1.0.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AspNetSerilog\AspNetSerilog.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using RestSharp.Serilog.Auto;
 using System;
 using System.Threading.Tasks;
 
@@ -9,12 +10,15 @@ namespace AspNetScaffolding.Extensions.RequestKey
     {
         private readonly RequestDelegate Next;
 
+        private IRestClientFactory RestClientFactory { get; set; }
+
         private RequestKey RequestKey { get; set; }
 
-        public RequestKeyMiddleware(RequestDelegate next, RequestKey requestKey)
+        public RequestKeyMiddleware(RequestDelegate next, RequestKey requestKey, IRestClientFactory restClientFactory)
         {
             this.RequestKey = requestKey;
             this.Next = next;
+            this.RestClientFactory = restClientFactory;
         }
 
         public async Task Invoke(HttpContext context)
@@ -28,6 +32,7 @@ namespace AspNetScaffolding.Extensions.RequestKey
                 this.RequestKey = new RequestKey(Guid.NewGuid().ToString());
             }
 
+            this.RestClientFactory.RequestKey = this.RequestKey.Value;
             context.Items.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
             context.Response.Headers.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
 

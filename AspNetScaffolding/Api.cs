@@ -1,4 +1,5 @@
 ﻿using AspNetScaffolding.Extensions.Docs;
+using AspNetScaffolding.Extensions.Healthcheck;
 using AspNetScaffolding.Extensions.Logger;
 using AspNetScaffolding.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,8 @@ namespace AspNetScaffolding
 
         public static ApiSettings ApiSettings { get; set; } = new ApiSettings();
 
+        public static HealthcheckSettings HealthcheckSettings { get; set; } = new HealthcheckSettings();
+
         public static LoggerSettings LogSettings { get; set; } = new LoggerSettings();
 
         public static DbSettings DbSettings { get; set; } = new DbSettings();
@@ -32,10 +35,9 @@ namespace AspNetScaffolding
                 .UseKestrel()
                 .UseUrls("http://*:" + ApiBasicConfiguration.ApiPort.ToString())
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
 
-            host.Run();
+            host.Build().Run();
         }
     }
 }

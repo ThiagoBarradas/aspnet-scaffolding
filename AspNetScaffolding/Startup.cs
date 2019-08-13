@@ -3,8 +3,10 @@ using AspNetScaffolding.Extensions.Cors;
 using AspNetScaffolding.Extensions.CultureInfo;
 using AspNetScaffolding.Extensions.Docs;
 using AspNetScaffolding.Extensions.ExceptionHandler;
+using AspNetScaffolding.Extensions.Healthcheck;
 using AspNetScaffolding.Extensions.JsonSerializer;
 using AspNetScaffolding.Extensions.Logger;
+using AspNetScaffolding.Extensions.Mapper;
 using AspNetScaffolding.Extensions.QueryFormatter;
 using AspNetScaffolding.Extensions.RequestKey;
 using AspNetScaffolding.Extensions.RoutePrefix;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestSharp.Serilog.Auto;
 using System.IO;
 
 namespace AspNetScaffolding
@@ -33,6 +36,7 @@ namespace AspNetScaffolding
             Api.ConfigurationRoot = builder.Build();
 
             Api.ConfigurationRoot.GetSection("ApiSettings").Bind(Api.ApiSettings);
+            Api.ConfigurationRoot.GetSection("HealthcheckSettings").Bind(Api.HealthcheckSettings);
             Api.ConfigurationRoot.GetSection("LogSettings").Bind(Api.LogSettings);
             Api.ConfigurationRoot.GetSection("DbSettings").Bind(Api.DbSettings);
             Api.ConfigurationRoot.GetSection("DocsSettings").Bind(Api.DocsSettings);
@@ -59,6 +63,12 @@ namespace AspNetScaffolding
                 options.AddQueryFormatter(Api.ApiSettings.JsonSerializer);
             });
 
+            services.AddScoped<IRestClientFactory, RestClientFactory>();
+
+            services.SetupAutoMapper(Api.ApiBasicConfiguration.ConfigureMapper);
+            services.SetupHealthcheck(Api.ApiSettings,
+                                      Api.HealthcheckSettings, 
+                                      Api.ApiBasicConfiguration.ConfigureHealthcheck);
             services.SetupAllowCors();
             services.SetupRequestKey(Api.ApiSettings?.RequestKeyProperty);
             services.SetupAccountId(Api.ApiSettings?.AccountIdProperty);
@@ -68,7 +78,7 @@ namespace AspNetScaffolding
                                   Api.LogSettings,
                                   Api.DocsSettings.GetDocsFinalRoutes());
 
-            Api.ApiBasicConfiguration.ConfigureServices?.DynamicInvoke(services);
+            Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -80,10 +90,11 @@ namespace AspNetScaffolding
             app.UseScaffoldingSwagger();
             app.UseScaffoldingRequestLocalization(Api.ApiSettings?.SupportedCultures);
             app.UseScaffoldingExceptionHandler();
+            app.UseHealthcheck();
             app.UseMvc();
             app.AllowCors();
 
-            Api.ApiBasicConfiguration.Configure?.DynamicInvoke(app, env);
+            Api.ApiBasicConfiguration.Configure?.Invoke(app, env);
         }
     }
 }
