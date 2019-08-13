@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+	<IsPackable>true</IsPackable>
 	<PackageIconUrl>https://i.imgur.com/Wq5D0gQ.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/thiagobarradas/aspnet-scaffolding</PackageProjectUrl>
     <PackageTags>aspnet, scaffolding, splunk, seq, healthcheck, timezone, requestkey, timeelapsed, api, core, json</PackageTags>
