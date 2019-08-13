@@ -61,6 +61,7 @@ namespace AspNetScaffolding
             {
                 options.UseCentralRoutePrefix(Api.ApiSettings.GetPathPrefixConsideringVersion());
                 options.AddQueryFormatter(Api.ApiSettings.JsonSerializer);
+                options.AddPathFormatter(Api.ApiSettings.JsonSerializer);
             });
 
             services.AddScoped<IRestClientFactory, RestClientFactory>();

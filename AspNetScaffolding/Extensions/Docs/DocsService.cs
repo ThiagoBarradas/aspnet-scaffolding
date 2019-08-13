@@ -46,7 +46,7 @@ namespace AspNetScaffolding.Extensions.Docs
                             break;
                     }
 
-                    options.OperationFilter<QuerystringCaseOperationFilter>();
+                    options.OperationFilter<QueryAndPathCaseOperationFilter>();
                     options.DescribeAllEnumsAsStrings();
                     options.SwaggerDoc(apiSettings.Version, new Info
                     {
