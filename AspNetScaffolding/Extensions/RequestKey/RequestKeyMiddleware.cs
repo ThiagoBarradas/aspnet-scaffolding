@@ -32,7 +32,6 @@ namespace AspNetScaffolding.Extensions.RequestKey
                 this.RequestKey = new RequestKey(Guid.NewGuid().ToString());
             }
 
-            this.RestClientFactory.RequestKey = this.RequestKey.Value;
             context.Items.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
             context.Response.Headers.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
 
