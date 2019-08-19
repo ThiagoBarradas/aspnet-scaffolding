@@ -1,4 +1,5 @@
-﻿using AspNetSerilog.Extensions;
+﻿using AspNetScaffolding.Extensions.AccountId;
+using AspNetScaffolding.Extensions.RequestKey;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,11 @@ namespace AspNetScaffolding.Controllers
     {
         protected IHostingEnvironment HostingEnvironment { get; set; }
 
-        public HomeController(IHostingEnvironment hostingEnvironment)
+        protected RequestKey RequestKey { get; set; }
+
+        public HomeController(IHostingEnvironment hostingEnvironment, RequestKey requestKey, AccountId accountId)
         {
+            this.RequestKey = requestKey;
             this.HostingEnvironment = hostingEnvironment;
         }
 
@@ -21,7 +25,8 @@ namespace AspNetScaffolding.Controllers
             {
                 Service = Api.ApiBasicConfiguration?.ApiName,
                 BuildVersion = Api.ApiSettings?.BuildVersion,
-                Environment = this.HostingEnvironment.EnvironmentName
+                Environment = this.HostingEnvironment.EnvironmentName,
+                RequestKey = this.RequestKey.Value
             });
         }
 
@@ -32,6 +37,8 @@ namespace AspNetScaffolding.Controllers
             public string BuildVersion { get; set; }
 
             public string Environment { get; set; }
+
+            public string RequestKey { get; set; }
         }
     }
 }

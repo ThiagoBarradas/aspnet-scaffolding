@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using RestSharp.Serilog.Auto;
 using System.Threading.Tasks;
 
 namespace AspNetScaffolding.Extensions.AccountId
@@ -9,23 +8,17 @@ namespace AspNetScaffolding.Extensions.AccountId
     {
         private readonly RequestDelegate Next;
 
-        private IRestClientFactory RestClientFactory { get; set; }
-
-        private AccountId AccountId { get; set; }
-
-        public AccountIdMiddleware(RequestDelegate next, AccountId accountId, IRestClientFactory restClientFactory)
+        public AccountIdMiddleware(RequestDelegate next)
         {
-            this.AccountId = accountId;
             this.Next = next;
-            this.RestClientFactory = restClientFactory;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, AccountId accountId)
         {
             await this.Next(context);
 
-            context.Items.Add(AccountIdServiceExtension.AccountIdHeaderName, this.AccountId.Value);
-            context.Response.Headers.Add(AccountIdServiceExtension.AccountIdHeaderName, this.AccountId.Value);
+            context.Items.Add(AccountIdServiceExtension.AccountIdHeaderName, accountId.Value);
+            context.Response.Headers.Add(AccountIdServiceExtension.AccountIdHeaderName, accountId.Value);
         }
     }
 

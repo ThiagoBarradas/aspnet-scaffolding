@@ -1,4 +1,5 @@
-﻿using AspNetScaffolding.Extensions.RequestKey;
+﻿using AspNetScaffolding.Extensions.AccountId;
+using AspNetScaffolding.Extensions.RequestKey;
 using AspNetScaffolding.Extensions.TimeElapsed;
 using AspNetSerilog;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ namespace AspNetScaffolding.Extensions.Logger
                 ErrorTitle = settings?.TitlePrefix + CommunicationLogger.DefaultErrorTitle,
                 Blacklist = settings?.JsonBlacklist,
                 RequestKeyProperty = RequestKeyServiceExtension.RequestKeyHeaderName,
+                AccountIdProperty = AccountIdServiceExtension.AccountIdHeaderName,
                 TimeElapsedProperty = TimeElapsedServiceExtension.TimeElapsedHeaderName,
                 IgnoredRoutes = ignoredRoutes
             };

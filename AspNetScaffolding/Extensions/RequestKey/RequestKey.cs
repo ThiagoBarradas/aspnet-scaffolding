@@ -9,6 +9,6 @@
             this.Value = value;
         }
 
-        public readonly string Value;
+        public string Value { get; set; }
     }
 }

@@ -85,8 +85,8 @@ namespace AspNetScaffolding
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAspNetSerilog();
-            app.UseRequestKey();
             app.UseAccountId();
+            app.UseRequestKey();
             app.UseTimeElapsed();
             app.UseScaffoldingSwagger();
             app.UseScaffoldingRequestLocalization(Api.ApiSettings?.SupportedCultures);

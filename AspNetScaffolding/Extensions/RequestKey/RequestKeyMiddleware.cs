@@ -1,41 +1,34 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using RestSharp.Serilog.Auto;
 using System;
 using System.Threading.Tasks;
 
 namespace AspNetScaffolding.Extensions.RequestKey
 {
-    public class RequestKeyMiddleware
+    public class RequestKeyMiddleware : IMiddleware
     {
-        private readonly RequestDelegate Next;
-
-        private IRestClientFactory RestClientFactory { get; set; }
-
         private RequestKey RequestKey { get; set; }
 
-        public RequestKeyMiddleware(RequestDelegate next, RequestKey requestKey, IRestClientFactory restClientFactory)
+        public RequestKeyMiddleware(RequestKey requestKey)
         {
             this.RequestKey = requestKey;
-            this.Next = next;
-            this.RestClientFactory = restClientFactory;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             if (context.Request.Headers.ContainsKey(RequestKeyServiceExtension.RequestKeyHeaderName))
             {
-                this.RequestKey = new RequestKey(context.Request.Headers[RequestKeyServiceExtension.RequestKeyHeaderName]);
+                this.RequestKey.Value = context.Request.Headers[RequestKeyServiceExtension.RequestKeyHeaderName];
             }
             else
             {
-                this.RequestKey = new RequestKey(Guid.NewGuid().ToString());
+                this.RequestKey.Value = Guid.NewGuid().ToString();
             }
 
             context.Items.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
             context.Response.Headers.Add(RequestKeyServiceExtension.RequestKeyHeaderName, this.RequestKey.Value);
 
-            await this.Next(context);
+            await next(context);
         }
     }
 

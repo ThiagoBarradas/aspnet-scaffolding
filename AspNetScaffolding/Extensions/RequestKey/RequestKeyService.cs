@@ -13,7 +13,8 @@ namespace AspNetScaffolding.Extensions.RequestKey
                 RequestKeyHeaderName = headerName;
             }
 
-            services.AddScoped<RequestKey>();
+            services.AddScoped<RequestKeyMiddleware>();
+            services.AddScoped(obj => new RequestKey());
         }
     }
 }

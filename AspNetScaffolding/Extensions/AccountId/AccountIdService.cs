@@ -13,7 +13,8 @@ namespace AspNetScaffolding.Extensions.AccountId
                 AccountIdHeaderName = headerName;
             }
 
-            services.AddScoped<AccountId>();
+            services.AddScoped<AccountIdMiddleware>();
+            services.AddScoped(obj => new AccountId());
         }
     }
 }
