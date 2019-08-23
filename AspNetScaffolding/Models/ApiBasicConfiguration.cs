@@ -20,7 +20,7 @@ namespace AspNetScaffolding.Models
 
         public Action<IMapperConfigurationExpression> ConfigureMapper { get; set; }
 
-        public Action<IHealthChecksBuilder> ConfigureHealthcheck { get; set; }
+        public Action<IHealthChecksBuilder, IServiceCollection> ConfigureHealthcheck { get; set; }
 
         public Action<IServiceCollection> ConfigureServices { get; set; }
 

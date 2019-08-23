@@ -56,7 +56,7 @@ public class Program
 
 public static class Startup
 {
-	public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder)
+	public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder, IServiceCollection services)
     {
         // add health check configuration
         builder.AddMongoDb("mongodb://localhost:27017");

@@ -14,7 +14,7 @@ namespace AspNetScaffolding.Extensions.Healthcheck
             this IServiceCollection services,
             ApiSettings apiSettings,
             HealthcheckSettings healthcheckSettings,
-            Action<IHealthChecksBuilder> builderFunction)
+            Action<IHealthChecksBuilder, IServiceCollection> builderFunction)
         {
             HealthcheckSettings = healthcheckSettings;
             ApiSettings = apiSettings;
@@ -22,7 +22,7 @@ namespace AspNetScaffolding.Extensions.Healthcheck
             if (healthcheckSettings?.Enabled == true)
             {
                 var builder = services.AddHealthChecks();
-                builderFunction?.Invoke(builder);
+                builderFunction?.Invoke(builder, services);
             }
         }
     }
