@@ -28,7 +28,7 @@ namespace AspNetScaffolding.DemoApi
             Api.Run(config);
         }
 
-        public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder, IServiceCollection services)
+        public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder, IServiceProvider provider)
         {
             // add health check configuration
             builder.AddUrlGroup(new Uri("https://www.google.com"), "google");
