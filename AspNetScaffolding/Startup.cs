@@ -67,9 +67,7 @@ namespace AspNetScaffolding
             services.AddScoped<IRestClientFactory, RestClientFactory>();
 
             services.SetupAutoMapper(Api.ApiBasicConfiguration.ConfigureMapper);
-            services.SetupHealthcheck(Api.ApiSettings,
-                                      Api.HealthcheckSettings, 
-                                      Api.ApiBasicConfiguration.ConfigureHealthcheck);
+
             services.SetupAllowCors();
             services.SetupRequestKey(Api.ApiSettings?.RequestKeyProperty);
             services.SetupAccountId(Api.ApiSettings?.AccountIdProperty);
@@ -80,6 +78,10 @@ namespace AspNetScaffolding
                                   Api.DocsSettings.GetDocsFinalRoutes());
 
             Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
+
+            services.SetupHealthcheck(Api.ApiSettings,
+                                      Api.HealthcheckSettings,
+                                      Api.ApiBasicConfiguration.ConfigureHealthcheck);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
