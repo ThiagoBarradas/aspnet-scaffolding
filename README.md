@@ -39,7 +39,7 @@ public class Program
             ApiPort = 8700,
             EnvironmentVariablesPrefix = "Prefix_",
             ConfigureMapper = Startup.AdditionalConfigureMapper,
-			ConfigureHealthcheck = Startup.AdditionalConfigureHealthcheck,
+            ConfigureHealthcheck = Startup.AdditionalConfigureHealthcheck,
             ConfigureServices = Startup.AdditionalConfigureServices,
             Configure = Startup.AdditionalConfigure,
             AutoRegisterAssemblies = new Assembly[] 
@@ -56,7 +56,7 @@ public class Program
 
 public static class Startup
 {
-	public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder, IServiceCollection services)
+    public static void AdditionalConfigureHealthcheck(IHealthChecksBuilder builder, IServiceProvider services)
     {
         // add health check configuration
         builder.AddMongoDb("mongodb://localhost:27017");
@@ -74,7 +74,7 @@ public static class Startup
         app.UseAuthentication();
     }
 
-	public static void AdditionalConfigureMapper(IMapperConfigurationExpression mapper)
+    public static void AdditionalConfigureMapper(IMapperConfigurationExpression mapper)
     {
         // customize your mappers
         mapper.CreateMap<SomeModel, OtherModel>();
@@ -97,7 +97,6 @@ App Settings
     "Version": "v1",
     "BuildVersion": "1.0.0",
     "SupportedCultures": [ "pt-BR", "es-ES", "en-US" ],
-    "DebugMode": false,
     "RequestKeyProperty": "RequestKey",
     "AccountIdProperty": "AccountId",
     "TimezoneHeader": "Timezone",
@@ -105,7 +104,8 @@ App Settings
     "TimeElapsedProperty": "X-Internal-Time"
   },
   "HealthcheckSettings": {
-    "Enabled" :  true
+    "Enabled" :  true,
+    "Path": "healthcheck/some-token-if-needed"
   },
   "LogSettings": {
     "DebugEnabled": false,

@@ -21,7 +21,7 @@ namespace AspNetScaffolding
 
         public static LoggerSettings LogSettings { get; set; } = new LoggerSettings();
 
-        public static DbSettings DbSettings { get; set; } = new DbSettings();
+        public static DatabaseSettings DatabaseSettings { get; set; } = new DatabaseSettings();
 
         public static DocsSettings DocsSettings { get; set; } = new DocsSettings();
 

@@ -39,8 +39,6 @@ namespace AspNetScaffolding.Models
 
         public string[] SupportedCultures { get; set; }
 
-        public bool DebugMode { get; set; }
-
         public string RequestKeyProperty { get; set; } 
 
         public string AccountIdProperty { get; set; }

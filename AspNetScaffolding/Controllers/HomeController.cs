@@ -1,5 +1,6 @@
 ﻿using AspNetScaffolding.Extensions.AccountId;
 using AspNetScaffolding.Extensions.RequestKey;
+using AspNetSerilog.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,8 @@ namespace AspNetScaffolding.Controllers
         [ProducesResponseType(typeof(HomeDetails), 200)]
         public IActionResult Home()
         {
+            this.DisableLogging();
+
             return Ok(new HomeDetails
             {
                 Service = Api.ApiBasicConfiguration?.ApiName,

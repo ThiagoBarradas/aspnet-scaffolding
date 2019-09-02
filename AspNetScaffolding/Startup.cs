@@ -38,7 +38,7 @@ namespace AspNetScaffolding
             Api.ConfigurationRoot.GetSection("ApiSettings").Bind(Api.ApiSettings);
             Api.ConfigurationRoot.GetSection("HealthcheckSettings").Bind(Api.HealthcheckSettings);
             Api.ConfigurationRoot.GetSection("LogSettings").Bind(Api.LogSettings);
-            Api.ConfigurationRoot.GetSection("DbSettings").Bind(Api.DbSettings);
+            Api.ConfigurationRoot.GetSection("DatabaseSettings").Bind(Api.DatabaseSettings);
             Api.ConfigurationRoot.GetSection("DocsSettings").Bind(Api.DocsSettings);
         }
 

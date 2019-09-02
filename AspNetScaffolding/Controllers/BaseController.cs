@@ -39,10 +39,9 @@ namespace AspNetScaffolding.Controllers
             var result = false;
             var signature = this.Request.Headers[headerName].FirstOrDefault() ?? string.Empty;
 
-            if (Request.Body.CanRead)
+            if (this.Request.Body.CanRead)
             {
-                Request.Body.Seek(0, SeekOrigin.Begin);
-                using (StreamReader reader = new StreamReader(Request.Body))
+                using (StreamReader reader = new StreamReader(this.Request.Body))
                 {
                     var content = reader.ReadToEnd();
                     result = SignatureUtility.ValidateSignature(signature, secretKey, content);

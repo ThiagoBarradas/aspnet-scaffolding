@@ -1,6 +1,6 @@
 ﻿namespace AspNetScaffolding.Models
 {
-    public class DbSettings
+    public class DatabaseSettings
     {
         public string ConnectionString { get; set; }
 

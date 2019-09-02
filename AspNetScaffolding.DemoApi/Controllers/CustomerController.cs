@@ -1,4 +1,5 @@
 ﻿using AspNetScaffolding.DemoApi.Models;
+using AspNetSerilog;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models.Response;
 
@@ -6,9 +7,11 @@ namespace AspNetScaffolding.Controllers
 {
     public class CustomerController : BaseController
     {
-        public CustomerController()
-        {
+        public LogAdditionalInfo LogAdditionalInfo { get; set; }
 
+        public CustomerController(LogAdditionalInfo logAdditionalInfo)
+        {
+            this.LogAdditionalInfo = logAdditionalInfo;
         }
 
         [HttpGet("customers/{customerId}")]
@@ -18,6 +21,8 @@ namespace AspNetScaffolding.Controllers
         [ProducesResponseType(500)]
         public IActionResult Get(CustomerRequest request)
         {
+            this.LogAdditionalInfo.Data.Add("CustomerId", request.CustomerId);
+
             return Ok(request);
         }
 
