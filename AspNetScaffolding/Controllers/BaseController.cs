@@ -39,10 +39,17 @@ namespace AspNetScaffolding.Controllers
             var result = false;
             var signature = this.Request.Headers[headerName].FirstOrDefault() ?? string.Empty;
 
-            if (this.Request.Body.CanRead)
+            if (this.Request.Body.CanRead &&
+                this.Request.Body.CanSeek)
             {
-                using (StreamReader reader = new StreamReader(this.Request.Body))
+                MemoryStream stream = new MemoryStream();
+                this.Request.Body.Seek(0, SeekOrigin.Begin);
+                this.Request.Body.CopyTo(stream);
+                this.Request.Body.Seek(0, SeekOrigin.Begin);
+
+                using (StreamReader reader = new StreamReader(stream))
                 {
+                    stream.Seek(0, SeekOrigin.Begin);
                     var content = reader.ReadToEnd();
                     result = SignatureUtility.ValidateSignature(signature, secretKey, content);
                 }
