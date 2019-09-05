@@ -1,4 +1,7 @@
-﻿using AspNetScaffolding.DemoApi.Models;
+﻿using AspNetScaffolding.DemoApi.Entities;
+using AspNetScaffolding.DemoApi.Models;
+using AspNetScaffolding.Extensions.AutoMapper;
+using AspNetScaffolding.Extensions.Mapper;
 using AspNetSerilog;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models.Response;
@@ -54,6 +57,14 @@ namespace AspNetScaffolding.Controllers
         public IActionResult GetFromRoute([FromRoute] CustomerRequest2 request)
         {
             return Ok(request);
+        }
+
+        [HttpPost("customers")]
+        public IActionResult Create([FromBody] CustomerRequest2 request2)
+        {
+            var customer = request2.As<Customer>();
+
+            return Created("", customer);
         }
     }
 }

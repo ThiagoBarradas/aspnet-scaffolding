@@ -17,7 +17,7 @@ namespace AspNetScaffolding.DemoApi
                 ApiName = "My AspNet Scaffolding",
                 ApiPort = 8700,
                 EnvironmentVariablesPrefix = "Prefix_",
-                ConfigureMapper = AdditionalConfigureMapper,
+               
                 ConfigureHealthcheck = AdditionalConfigureHealthcheck,
                 ConfigureServices = AdditionalConfigureServices,
                 Configure = AdditionalConfigure,
@@ -47,10 +47,5 @@ namespace AspNetScaffolding.DemoApi
             //app.UseAuthentication();
         }
 
-        public static void AdditionalConfigureMapper(IMapperConfigurationExpression mapper)
-        {
-            // customize your mappers
-            //mapper.CreateMap<SomeModel, OtherModel>();
-        }
     }
 }

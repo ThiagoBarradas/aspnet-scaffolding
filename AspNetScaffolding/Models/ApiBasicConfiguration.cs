@@ -17,9 +17,7 @@ namespace AspNetScaffolding.Models
         public string EnvironmentVariablesPrefix { get; set; }
 
         public IEnumerable<Assembly> AutoRegisterAssemblies { get; set; } = new List<Assembly>();
-
-        public Action<IMapperConfigurationExpression> ConfigureMapper { get; set; }
-
+        
         public Action<IHealthChecksBuilder, IServiceProvider> ConfigureHealthcheck { get; set; }
 
         public Action<IServiceCollection> ConfigureServices { get; set; }

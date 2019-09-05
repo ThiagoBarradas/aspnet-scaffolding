@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp.Serilog.Auto;
 using System.IO;
+using AspNetScaffolding.Extensions.AutoMapper;
 
 namespace AspNetScaffolding
 {
@@ -56,7 +57,7 @@ namespace AspNetScaffolding
                 Api.ApiSettings.JsonSerializer,
                 Api.ApiSettings?.TimezoneHeader,
                 Api.ApiSettings?.TimezoneDefault);
-            
+
             mvc.AddMvcOptions(options =>
             {
                 options.UseCentralRoutePrefix(Api.ApiSettings.GetPathPrefixConsideringVersion());
@@ -66,22 +67,26 @@ namespace AspNetScaffolding
 
             services.AddScoped<IRestClientFactory, RestClientFactory>();
 
-            services.SetupAutoMapper(Api.ApiBasicConfiguration.ConfigureMapper);
-
             services.SetupAllowCors();
             services.SetupRequestKey(Api.ApiSettings?.RequestKeyProperty);
             services.SetupAccountId(Api.ApiSettings?.AccountIdProperty);
             services.SetupTimeElapsed(Api.ApiSettings?.TimeElapsedProperty);
             services.SetupSerilog(Api.ApiSettings?.Domain,
-                                  Api.ApiSettings?.Application,
-                                  Api.LogSettings,
-                                  Api.DocsSettings.GetDocsFinalRoutes());
+                Api.ApiSettings?.Application,
+                Api.LogSettings,
+                Api.DocsSettings.GetDocsFinalRoutes());
 
             Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
 
             services.SetupHealthcheck(Api.ApiSettings,
-                                      Api.HealthcheckSettings,
-                                      Api.ApiBasicConfiguration.ConfigureHealthcheck);
+                Api.HealthcheckSettings,
+                Api.ApiBasicConfiguration.ConfigureHealthcheck);
+
+            services.AddTransient<ITypeAdapterFactory>(c =>
+                new AutoMapperTypeAdapterFactory());
+
+            var serviceProvider = services.BuildServiceProvider();
+            TypeAdapterFactory.Set(serviceProvider.GetService<ITypeAdapterFactory>());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
