@@ -1,6 +1,5 @@
 ﻿using AspNetScaffolding.DemoApi.Entities;
 using AspNetScaffolding.DemoApi.Models;
-using AspNetScaffolding.Extensions.AutoMapper;
 using AspNetScaffolding.Extensions.Mapper;
 using AspNetSerilog;
 using Microsoft.AspNetCore.Mvc;

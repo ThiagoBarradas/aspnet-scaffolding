@@ -18,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp.Serilog.Auto;
 using System.IO;
-using AspNetScaffolding.Extensions.AutoMapper;
 
 namespace AspNetScaffolding
 {
@@ -78,15 +77,10 @@ namespace AspNetScaffolding
 
             Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
 
+            services.SetupAutoMapper();
             services.SetupHealthcheck(Api.ApiSettings,
                 Api.HealthcheckSettings,
                 Api.ApiBasicConfiguration.ConfigureHealthcheck);
-
-            services.AddTransient<ITypeAdapterFactory>(c =>
-                new AutoMapperTypeAdapterFactory());
-
-            var serviceProvider = services.BuildServiceProvider();
-            TypeAdapterFactory.Set(serviceProvider.GetService<ITypeAdapterFactory>());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
