@@ -58,8 +58,6 @@ namespace AspNetScaffolding.Extensions.Mapper
                 }
             });
 
-            configuration.AssertConfigurationIsValid();
-
             return configuration.CreateMapper();
         }
     }
