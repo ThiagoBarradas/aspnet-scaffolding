@@ -28,9 +28,16 @@ namespace AspNetScaffolding.Extensions.Docs
                 services.AddSwaggerGen(options =>
                 {
                     string readme = null;
-                    if (string.IsNullOrWhiteSpace(DocsSettings.PathToReadme) == false)
+                    try
                     {
-                        readme = File.ReadAllText(DocsSettings.PathToReadme);
+                        if (string.IsNullOrWhiteSpace(DocsSettings.PathToReadme) == false)
+                        {
+                            readme = File.ReadAllText(DocsSettings.PathToReadme);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine($"[ERROR] Swagger markdown ({DocsSettings.PathToReadme}) could not be loaded.");
                     }
 
                     switch (apiSettings.JsonSerializer)
