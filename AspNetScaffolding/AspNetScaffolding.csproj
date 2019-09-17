@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Mongo.CRUD" Version="1.0.10" />
+    <PackageReference Include="Mongo.CRUD" Version="1.0.13" />
     <PackageReference Include="PackUtils" Version="1.0.46" />
     <PackageReference Include="PagedList.NetCore" Version="1.0.6" />
     <PackageReference Include="RestSharp.Serilog.Auto" Version="1.0.30" />
