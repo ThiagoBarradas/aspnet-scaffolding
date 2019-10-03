@@ -21,11 +21,11 @@
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="2.2.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="2.2.4" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="2.2.3" />
-    <PackageReference Include="AspNetSerilog" Version="1.0.5" />
+    <PackageReference Include="AspNetSerilog" Version="1.0.6" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CorrelationId" Version="2.1.0" />
-    <PackageReference Include="FluentValidation" Version="8.4.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+    <PackageReference Include="FluentValidation" Version="8.5.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -35,7 +35,7 @@
     <PackageReference Include="RestSharp.Serilog.Auto" Version="1.0.30" />
     <PackageReference Include="Serilog.Builder" Version="1.0.25" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.0.0-rc4" />
     <PackageReference Include="WebApi.Models" Version="1.0.8" />
   </ItemGroup>
 
