@@ -91,7 +91,7 @@ namespace AspNetScaffolding
             app.UseTimeElapsed();
             app.UseScaffoldingSwagger();
             app.UseScaffoldingRequestLocalization(Api.ApiSettings?.SupportedCultures);
-            app.UseScaffoldingExceptionHandler();
+            app.UseScaffoldingExceptionHandler(env);
             app.UseHealthcheck();
             app.UseMvc();
             app.AllowCors();

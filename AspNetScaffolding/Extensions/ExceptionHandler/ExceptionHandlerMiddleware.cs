@@ -72,16 +72,15 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
 
     public static class ExceptionHandlerMiddlewareExtension
     {
-        public static void UseScaffoldingExceptionHandler(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
-
-        public static void UseDeveloperExceptionPageWhenDevelopment(this IApplicationBuilder app, IHostingEnvironment env)
+        public static void UseScaffoldingExceptionHandler(this IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseMiddleware<ExceptionHandlerMiddleware>();
             }
         }
     }
