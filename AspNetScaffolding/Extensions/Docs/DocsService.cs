@@ -53,6 +53,7 @@ namespace AspNetScaffolding.Extensions.Docs
                             break;
                     }
 
+                    options.CustomSchemaIds(x => x.FullName);
                     options.OperationFilter<QueryAndPathCaseOperationFilter>();
                     options.DescribeAllEnumsAsStrings();
                     options.SwaggerDoc(apiSettings.Version, new Info
