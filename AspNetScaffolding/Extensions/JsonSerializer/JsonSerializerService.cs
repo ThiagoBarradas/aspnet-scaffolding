@@ -9,6 +9,10 @@ namespace AspNetScaffolding.Extensions.JsonSerializer
 {
     public static class JsonSerializerService
     {
+        public static JsonSerializerSettings JsonSerializerSettings { get; set; }
+
+        public static Newtonsoft.Json.JsonSerializer JsonSerializer { get; set; }
+
         public static void ConfigureJsonSettings(
             this IMvcBuilder mvc, 
             IServiceCollection services,
@@ -18,42 +22,42 @@ namespace AspNetScaffolding.Extensions.JsonSerializer
         {
             CaseUtility.JsonSerializerMode = jsonSerializerMode;
 
-            JsonSerializerSettings jsonSerializerSettings = null;
-            Newtonsoft.Json.JsonSerializer jsonSerializer = null;
+            JsonSerializerSettings = null;
+            JsonSerializer = null;
 
             switch (jsonSerializerMode)
             {
                 case JsonSerializerEnum.Camelcase:
-                    jsonSerializer = JsonUtility.CamelCaseJsonSerializer;
-                    jsonSerializerSettings = JsonUtility.CamelCaseJsonSerializerSettings;
+                    JsonSerializer = JsonUtility.CamelCaseJsonSerializer;
+                    JsonSerializerSettings = JsonUtility.CamelCaseJsonSerializerSettings;
                     break;
                 case JsonSerializerEnum.Lowercase:
-                    jsonSerializer = JsonUtility.LowerCaseJsonSerializer;
-                    jsonSerializerSettings = JsonUtility.LowerCaseJsonSerializerSettings;
+                    JsonSerializer = JsonUtility.LowerCaseJsonSerializer;
+                    JsonSerializerSettings = JsonUtility.LowerCaseJsonSerializerSettings;
                     break;
                 case JsonSerializerEnum.Snakecase:
-                    jsonSerializer = JsonUtility.SnakeCaseJsonSerializer;
-                    jsonSerializerSettings = JsonUtility.SnakeCaseJsonSerializerSettings;
+                    JsonSerializer = JsonUtility.SnakeCaseJsonSerializer;
+                    JsonSerializerSettings = JsonUtility.SnakeCaseJsonSerializerSettings;
                     break;
                 default:
                     break;
             }
 
-            jsonSerializer.Converters.Clear();
-            jsonSerializer.Converters.Add(new EnumWithContractJsonConverter());
-            jsonSerializerSettings.Converters.Clear();
-            jsonSerializerSettings.Converters.Add(new EnumWithContractJsonConverter());
+            JsonSerializer.Converters.Clear();
+            JsonSerializer.Converters.Add(new EnumWithContractJsonConverter());
+            JsonSerializerSettings.Converters.Clear();
+            JsonSerializerSettings.Converters.Add(new EnumWithContractJsonConverter());
 
-            JsonConvert.DefaultSettings = () => jsonSerializerSettings;
+            JsonConvert.DefaultSettings = () => JsonSerializerSettings;
 
-            services.AddScoped((provider) => jsonSerializer);
-            services.AddScoped((provider) => jsonSerializerSettings);
+            services.AddScoped((provider) => JsonSerializer);
+            services.AddScoped((provider) => JsonSerializerSettings);
 
             DateTimeConverter.DefaultTimeZone = defaultTimeZone;
             mvc.AddJsonOptions(options => {
-                options.SerializerSettings.ContractResolver = jsonSerializerSettings.ContractResolver;
-                options.SerializerSettings.Converters = jsonSerializerSettings.Converters;
-                options.SerializerSettings.NullValueHandling = jsonSerializerSettings.NullValueHandling;
+                options.SerializerSettings.ContractResolver = JsonSerializerSettings.ContractResolver;
+                options.SerializerSettings.Converters = JsonSerializerSettings.Converters;
+                options.SerializerSettings.NullValueHandling = JsonSerializerSettings.NullValueHandling;
                 options.SerializerSettings.Converters.Add(new DateTimeConverter(() => {
                     var httpContextAccessor = services.BuildServiceProvider().GetService<IHttpContextAccessor>();
                     return DateTimeConverter.GetTimeZoneByAspNetHeader(httpContextAccessor, timezoneHeaderName);

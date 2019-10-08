@@ -11,7 +11,7 @@ namespace AspNetScaffolding.DemoApi.Models
 
     public class CustomerRequest2
     {
-        public string CustomerId { get; set; }
+        [FromRoute] public string CustomerId { get; set; }
 
         public string OtherProp { get; set; }
     }

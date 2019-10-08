@@ -65,5 +65,15 @@ namespace AspNetScaffolding.Controllers
 
             return Created("", customer);
         }
+
+        [HttpPost("customers/{customerId}")]
+        public IActionResult Create2([FromBody] CustomerRequest2 request2)
+        {
+            var customer = request2.As<Customer>();
+
+            throw new System.Exception("asdsd");
+
+            return Created("", customer);
+        }
     }
 }

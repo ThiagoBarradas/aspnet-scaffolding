@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AspNetScaffolding.Extensions.JsonSerializer;
+using AspNetScaffolding.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -14,9 +16,12 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
     {
         private readonly RequestDelegate Next;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        private readonly bool IsDevelopment;
+
+        public ExceptionHandlerMiddleware(RequestDelegate next, IHostingEnvironment env)
         {
             this.Next = next;
+            this.IsDevelopment = env.IsDevelopment();
         }
 
         public async Task Invoke(HttpContext context)
@@ -27,25 +32,38 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
             }
             catch(Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex, this.IsDevelopment);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, bool isDevelopment)
         {
+            try
+            {
+                context.Request.Body.Position = 0;
+            }
+            catch { }
+
             if (exception is ApiException)
             {
                 return ApiException(context, (ApiException) exception);
             }
             else
             {
-                return GenericError(context, exception);
+                return GenericError(context, exception, isDevelopment);
             }
         }
 
-        private static Task GenericError(HttpContext context, Exception exception)
+        private static Task GenericError(HttpContext context, Exception exception, bool isDevelopment)
         {
             context.Items.Add("Exception", exception);
+
+            if (isDevelopment)
+            {
+                var exceptionContainer = new ExceptionContainer(exception);
+                context.Response.WriteAsync(JsonConvert.SerializeObject(exceptionContainer, JsonSerializerService.JsonSerializerSettings)).Wait();
+                context.Response.Body.Position = 0;
+            }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
@@ -62,7 +80,7 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
 
             if (apiResponse.Content != null)
             {
-                context.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.Content)).Wait();
+                context.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.Content, JsonSerializerService.JsonSerializerSettings)).Wait();
                 context.Response.Body.Position = 0;
             }
 
@@ -74,14 +92,7 @@ namespace AspNetScaffolding.Extensions.ExceptionHandler
     {
         public static void UseScaffoldingExceptionHandler(this IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseMiddleware<ExceptionHandlerMiddleware>();
-            }
+            app.UseMiddleware<ExceptionHandlerMiddleware>(env);
         }
     }
 }
