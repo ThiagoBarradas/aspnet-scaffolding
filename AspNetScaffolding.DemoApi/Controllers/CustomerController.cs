@@ -75,5 +75,15 @@ namespace AspNetScaffolding.Controllers
 
             return Created("", customer);
         }
+
+        [HttpGet("customers/null")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ErrorsResponse), 400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult GetNull()
+        {
+            return this.CreateJsonResponse(ApiResponse.OK());
+        }
     }
 }

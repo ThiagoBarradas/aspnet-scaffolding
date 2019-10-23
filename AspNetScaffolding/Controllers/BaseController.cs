@@ -18,10 +18,20 @@ namespace AspNetScaffolding.Controllers
 
         protected IActionResult CreateJsonResponse(ApiResponse response)
         {
-            JsonResult result = new JsonResult(response.Content)
+            IActionResult result;
+
+            if (response.Content != null)
             {
-                StatusCode = (int)response.StatusCode
-            };
+                result = new JsonResult(response.Content)
+                {
+                    StatusCode = (int)response.StatusCode
+                };
+            }
+            else
+            {
+                result = new StatusCodeResult((int)response.StatusCode);
+                Response.ContentType = "application/json";
+            }
 
             if (response.Headers != null)
             {
