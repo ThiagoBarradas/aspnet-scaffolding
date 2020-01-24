@@ -1,21 +1,30 @@
-﻿using AspNetScaffolding.Extensions.AccountId;
+﻿using AspNetScaffolding.Extensions.JsonSerializer;
 using AspNetScaffolding.Extensions.RequestKey;
 using AspNetSerilog.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PackUtils.Converters;
+using System;
 
 namespace AspNetScaffolding.Controllers
 {
     public class HomeController : BaseController
     {
-        protected IHostingEnvironment HostingEnvironment { get; set; }
+        protected readonly IHostingEnvironment HostingEnvironment;
 
-        protected RequestKey RequestKey { get; set; }
+        protected readonly RequestKey RequestKey;
 
-        public HomeController(IHostingEnvironment hostingEnvironment, RequestKey requestKey, AccountId accountId)
+        protected readonly IHttpContextAccessor HttpContextAccessor;
+
+        public HomeController(
+            IHttpContextAccessor httpContextAccessor,
+            IHostingEnvironment hostingEnvironment, 
+            RequestKey requestKey)
         {
-            this.RequestKey = requestKey;
+            this.HttpContextAccessor = httpContextAccessor;
             this.HostingEnvironment = hostingEnvironment;
+            this.RequestKey = requestKey;
         }
 
         [HttpGet("")]
@@ -29,7 +38,12 @@ namespace AspNetScaffolding.Controllers
                 Service = Api.ApiBasicConfiguration?.ApiName,
                 BuildVersion = Api.ApiSettings?.BuildVersion,
                 Environment = this.HostingEnvironment.EnvironmentName,
-                RequestKey = this.RequestKey.Value
+                RequestKey = this.RequestKey.Value,
+                Application = Api.ApiSettings.Application,
+                Domain = Api.ApiSettings.Domain,
+                JsonSerializer = Api.ApiSettings.JsonSerializer,
+                EnvironmentPrefix = Api.ApiBasicConfiguration.EnvironmentVariablesPrefix,
+                TimezoneInfo = new TimezoneInfo(this.HttpContextAccessor)
             });
         }
 
@@ -41,7 +55,37 @@ namespace AspNetScaffolding.Controllers
 
             public string Environment { get; set; }
 
+            public string Application { get; set; }
+
+            public string Domain { get; set; }
+            
+            public string EnvironmentPrefix { get; set; }
+
+            public JsonSerializerEnum JsonSerializer { get; set; }
+            
             public string RequestKey { get; set; }
+        
+            public TimezoneInfo TimezoneInfo { get; set; }
+        }
+
+        public class TimezoneInfo
+        {
+            public TimezoneInfo(IHttpContextAccessor httpContextAccessor)
+            {
+                this.CurrentTimezone = DateTimeConverter.GetTimeZoneByAspNetHeader(
+                    httpContextAccessor, 
+                    Api.ApiSettings.TimezoneHeader).Id;
+            }
+
+            public string UtcNow => DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss");
+
+            public DateTime CurrentNow => DateTime.UtcNow;
+
+            public string DefaultTimezone => Api.ApiSettings.TimezoneDefault.Id;
+
+            public string CurrentTimezone { get; set; }
+
+            public string TimezoneHeader => Api.ApiSettings.TimezoneHeader;
         }
     }
 }

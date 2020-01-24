@@ -16,6 +16,11 @@ namespace AspNetScaffolding.Controllers
             this.LogAdditionalInfo = logAdditionalInfo;
         }
 
+        /// <summary>
+        /// Get Customer
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpGet("customers/{customerId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ErrorsResponse), 400)]

@@ -42,7 +42,7 @@ namespace AspNetScaffolding.Extensions.Healthcheck
                 json.ToString(Formatting.Indented));
         }
 
-        private static string GetFullPath()
+        public static string GetFullPath()
         {
             var basePath = HealthcheckServiceExtension.ApiSettings.GetPathPrefixConsideringVersion();
             basePath = ((string.IsNullOrWhiteSpace(basePath) == false) ? "/" + basePath.Trim('/') : "");

@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp.Serilog.Auto;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AspNetScaffolding
 {
@@ -70,17 +72,25 @@ namespace AspNetScaffolding
             services.SetupRequestKey(Api.ApiSettings?.RequestKeyProperty);
             services.SetupAccountId(Api.ApiSettings?.AccountIdProperty);
             services.SetupTimeElapsed(Api.ApiSettings?.TimeElapsedProperty);
+            services.SetupHealthcheck(Api.ApiSettings,
+                Api.HealthcheckSettings,
+                Api.ApiBasicConfiguration.ConfigureHealthcheck);
+
+            List<string> ignoredRoutes = Api.DocsSettings.GetDocsFinalRoutes().ToList();
+            
+            if (Api.HealthcheckSettings.LogEnabled == false)
+            {
+                ignoredRoutes.Add(HealthcheckkMiddlewareExtension.GetFullPath());
+            }
+
             services.SetupSerilog(Api.ApiSettings?.Domain,
                 Api.ApiSettings?.Application,
-                Api.LogSettings,
-                Api.DocsSettings.GetDocsFinalRoutes());
+                Api.LogSettings, 
+                ignoredRoutes);
 
             Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
 
             services.SetupAutoMapper();
-            services.SetupHealthcheck(Api.ApiSettings,
-                Api.HealthcheckSettings,
-                Api.ApiBasicConfiguration.ConfigureHealthcheck);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
