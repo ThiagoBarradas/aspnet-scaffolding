@@ -57,7 +57,7 @@ namespace AspNetScaffolding
             mvc.ConfigureJsonSettings(services,
                 Api.ApiSettings.JsonSerializer,
                 Api.ApiSettings?.TimezoneHeader,
-                Api.ApiSettings?.TimezoneDefault);
+                Api.ApiSettings?.TimezoneDefaultInfo);
 
             mvc.AddMvcOptions(options =>
             {
@@ -72,15 +72,13 @@ namespace AspNetScaffolding
             services.SetupRequestKey(Api.ApiSettings?.RequestKeyProperty);
             services.SetupAccountId(Api.ApiSettings?.AccountIdProperty);
             services.SetupTimeElapsed(Api.ApiSettings?.TimeElapsedProperty);
-            services.SetupHealthcheck(Api.ApiSettings,
-                Api.HealthcheckSettings,
-                Api.ApiBasicConfiguration.ConfigureHealthcheck);
+           
 
             List<string> ignoredRoutes = Api.DocsSettings.GetDocsFinalRoutes().ToList();
             
             if (Api.HealthcheckSettings.LogEnabled == false)
             {
-                ignoredRoutes.Add(HealthcheckkMiddlewareExtension.GetFullPath());
+                ignoredRoutes.Add(HealthcheckkMiddlewareExtension.GetFullPath(Api.ApiSettings, Api.HealthcheckSettings));
             }
 
             services.SetupSerilog(Api.ApiSettings?.Domain,
@@ -91,6 +89,10 @@ namespace AspNetScaffolding
             Api.ApiBasicConfiguration.ConfigureServices?.Invoke(services);
 
             services.SetupAutoMapper();
+
+            services.SetupHealthcheck(Api.ApiSettings,
+               Api.HealthcheckSettings,
+               Api.ApiBasicConfiguration.ConfigureHealthcheck);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

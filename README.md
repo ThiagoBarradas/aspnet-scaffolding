@@ -38,7 +38,6 @@ public class Program
             ApiName = "My AspNet Scaffolding",
             ApiPort = 8700,
             EnvironmentVariablesPrefix = "Prefix_",
-            ConfigureMapper = Startup.AdditionalConfigureMapper,
             ConfigureHealthcheck = Startup.AdditionalConfigureHealthcheck,
             ConfigureServices = Startup.AdditionalConfigureServices,
             Configure = Startup.AdditionalConfigure,
@@ -73,12 +72,6 @@ public static class Startup
         // customize your app
         app.UseAuthentication();
     }
-
-    public static void AdditionalConfigureMapper(IMapperConfigurationExpression mapper)
-    {
-        // customize your mappers
-        mapper.CreateMap<SomeModel, OtherModel>();
-    }
 }
 
 ```
@@ -105,7 +98,8 @@ App Settings
   },
   "HealthcheckSettings": {
     "Enabled" :  true,
-    "Path": "healthcheck/some-token-if-needed"
+    "Path": "healthcheck/some-token-if-needed",
+	"LogEnabled" : false
   },
   "LogSettings": {
     "DebugEnabled": false,
