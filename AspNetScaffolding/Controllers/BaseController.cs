@@ -92,7 +92,7 @@ namespace AspNetScaffolding.Controllers
                         errorPerProperty.Key.Split(".")
                         .Select(r => r.GetValueConsideringCurrentCase()));
 
-                    errorsResponse.AddError(propertyName, errorDetail.ErrorMessage);
+                    errorsResponse.AddError(errorDetail.ErrorMessage, propertyName);
                 }
             }
 
