@@ -1,3 +1,14 @@
+> ## :warning: **DEPRECATED** :warning: 
+> 
+> This version is no longer supported and it do not will receive new  
+>
+> Please, update your project to new version of scaffolding. It is compatible, you just need update framework to `netcoreapp3.1`, remove `AspNetScaffolding` and install `AspNetScaffolding3`.
+>
+> https://github.com/ThiagoBarradas/aspnet-scaffolding3
+>
+
+<br><hr>
+
 [![Build status](https://ci.appveyor.com/api/projects/status/9jkiyh848g2djqkn/branch/master?svg=true)](https://ci.appveyor.com/project/ThiagoBarradas/aspnet-scaffolding/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a833f89548944fad8405aa6c9599edd4)](https://www.codacy.com/app/ThiagoBarradas/aspnet-scaffolding?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ThiagoBarradas/aspnet-scaffolding&amp;utm_campaign=Badge_Grade)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/AspNetScaffolding.svg)](https://www.nuget.org/packages/AspNetScaffolding/)
@@ -5,7 +16,7 @@
 
 # AspNetScaffolding
 
-Build web api fast and easily with aspnet core >2.2
+Build web api fast and easily with aspnet core 2.2
 
 ## Install via NuGet
 
